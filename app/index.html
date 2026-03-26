@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My apple storage</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .counter {
+            font-size: 2.5em;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .loading {
+            font-style: italic;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Welcome to the apple storage 🍎</h1>
+    <p>Amount of apples in the DB:</p>
+
+    <div id="apple-display" class="counter">
+        <span class="loading">Reloading Data...</span>
+    </div>
+
+    <script>
+        // This function sends the request to the node.js server
+        async function fetchApples() {
+            try {
+                const response = await fetch('/api/apples');
+                const data = await response.json();
+
+                // Update the HTML with the apples data
+                document.getElementById('apple-display').innerText = data.count;
+            } catch (error) {
+                console.error('Error fetching apples:', error);
+                document.getElementById('apple-display').innerText = 'Loading Error';
+            }
+        }
+
+        // The function that runs once the page reloaded
+        fetchApples();
+    </script>
+</body>
+
+</html>
