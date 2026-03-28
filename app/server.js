@@ -4,11 +4,8 @@ const path = require('path')
 const port = 3000
 const mongoose = require('mongoose')
 
-// Connecting to MongoDB
+// We will connect to MongoDB only if the script is run directly (not through tests)
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/fruitdb';
-mongoose.connect(mongoUri)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('Could not connect to MongoDB', err));
 
 // This create a variable that calls the model
 const Fruit = require('./models/Fruit')
@@ -49,13 +46,21 @@ const server = http.createServer(async function (req, res) {
 })
 
 if (require.main === module) {
-    server.listen(port, function (error) {
-        if (error) {
-            console.log('Something went wrong')
-        } else {
-            console.log('Server is listening on port', port)
-        }
-    })
+    mongoose.connect(mongoUri)
+        .then(() => {
+            console.log('Connected to MongoDB');
+            server.listen(port, function (error) {
+                if (error) {
+                    console.log('Something went wrong')
+                } else {
+                    console.log('Server is listening on port', port)
+                }
+            })
+        })
+        .catch(err => {
+            console.error('Could not connect to MongoDB', err);
+            process.exit(1);
+        });
 }
 
 module.exports = server;
