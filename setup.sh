@@ -1,4 +1,5 @@
 #!/bin/bash
+# Run this script if you wish to run the app localy on your machine.
 
 echo "Starting setup..."
 
@@ -12,6 +13,10 @@ echo "Cleaning up old containers..."
 docker compose down -v
 
 echo "Building and launching containers..."
+# Provide fallbacks for the local environment so docker-compose doesn't complain about empty variables
+export DOCKER_USERNAME=${DOCKER_USERNAME:-localdev}
+export IMAGE_TAG=${IMAGE_TAG:-latest}
+
 docker compose up --build -d
 
 # Waiting because db may take a few seconds to start
@@ -20,5 +25,5 @@ sleep 10
 
 echo "========================================="
 echo "          Application is ready!"
-echo "         URL: http://localhost:3000"
+echo "          URL: http://localhost"
 echo "========================================="

@@ -1,0 +1,38 @@
+name: CD - Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SSH into EC2 and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Create app directory if it doesn't exist
+            if [ ! -d "apple-web-task" ]; then
+              git clone https://github.com/${{ github.repository }}.git apple-web-task
+            fi
+            
+            cd apple-web-task
+            git pull origin main
+            
+            # Use environment variables with docker-compose to pull the specific version
+            export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+            export IMAGE_TAG="${{ github.run_number }}"
+            
+            # Pull exactly the image tagged with this build number
+            docker-compose pull
+            
+            # Gently update the containers without full downtime
+            docker-compose up -d --remove-orphans

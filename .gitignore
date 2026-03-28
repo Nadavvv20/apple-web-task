@@ -12,6 +12,9 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+*.pem
+*.aws
+aws/
 
 # OS Files
 .DS_Store

@@ -48,10 +48,14 @@ const server = http.createServer(async function (req, res) {
     }
 })
 
-server.listen(port, function (error) {
-    if (error) {
-        console.log('Something went wrong')
-    } else {
-        console.log('Server is listening on port', port)
-    }
-})
+if (require.main === module) {
+    server.listen(port, function (error) {
+        if (error) {
+            console.log('Something went wrong')
+        } else {
+            console.log('Server is listening on port', port)
+        }
+    })
+}
+
+module.exports = server;
