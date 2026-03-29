@@ -1,6 +1,6 @@
 # 🍎 Apple Storage Web Task
 
-A highly scalable, containerized Node.js web application built for modern cloud environments. This project provisions a complete full-stack architecture utilizing Docker, MongoDB, Nginx Load Balancing, Terraform (IaC), and a robust GitHub Actions CI/CD pipeline.
+A containerized Node.js web application built for modern cloud environments. This project provisions a complete full-stack architecture utilizing Docker, MongoDB, Nginx Load Balancing, Terraform (IaC), and GitHub Actions CI/CD pipeline.
 
 ---
 
@@ -70,3 +70,6 @@ The project utilizes two separate, strictly scoped GitHub Actions files for maxi
    * Pulls the newest repository changes.
    * Executes `docker-compose pull` forcing the server to download the exact image tagged by the CI step.
    * Peforms a Zero-Downtime rolling update via `docker-compose up -d --remove-orphans`.
+
+## AI Assistance:
+I utilized AI for studying new concepts, to assist with complex syntax, research best practices and optimize script structures.
