@@ -1,5 +1,5 @@
 # Dependencies
-./app/node_modules
+node_modules/
 dist/
 
 # Logs
